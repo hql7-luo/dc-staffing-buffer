@@ -1,0 +1,6 @@
+data/private/
+*.xlsx
+*.xls
+__pycache__/
+.pytest_cache/
+.venv/
