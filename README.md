@@ -41,8 +41,8 @@ Costs below are on top of the 20-driver plan, with a 10% overtime cap. Averages 
 ## How it works
 
 1. **Simulated history.** Six years (2020 to 2025) of weekly miles for a fictional distribution center. The seasonal shape is rounded to steps of 0.05 (quieter around the winter holidays, busier in summer), with about ±10% random noise each week.
-2. **Forecast.** Simple exponential smoothing on yearly miles with α = 0.75, the same method as the course project. On the simulated history the MAPE is 3.9%.
-3. **Yearly plan.** A linear program in PuLP, rebuilt from the project description: cover the forecast miles, keep a minimum crew, stay under a hiring limit, account for training weeks, and minimize pay, hiring and training, and layoff costs. It gives 20 drivers for 2026 to 2030. This is a reconstruction, not a reproduction of the course model, and its cost inputs are assumptions.
+2. **Forecast.** Simple exponential smoothing on yearly miles with α = 0.75. The course model used the same α but also applied a seasonal factor to each four-week period; this repo keeps only the yearly level. On the simulated history the MAPE is 3.9%.
+3. **Base crew.** A small linear program in PuLP sets the starting crew for the weekly simulation: cover the forecast miles, keep a minimum crew, stay under a hiring limit, account for training weeks, and minimize pay, hiring and training, and layoff costs. It gives 20 drivers. This is a simplified yearly version, not the course model, which re-planned fiscal 2025 across 13 four-week periods under mileage and target-headcount constraints. Its cost inputs are assumptions.
 4. **Weekly simulation.** 10,000 simulated years. Each week, drivers needed = average need × seasonal index × random noise. Each driver is absent with a 3% chance. A gap is filled with overtime first (each available driver can work up to 10% more), and whatever is left goes to an outside carrier.
 5. **Comparisons.** All-year buffers of 0 to 4, all-year plus peak-season mixes, and a sensitivity grid over overtime cap (0%, 10%, 20%), outsourcing cost and absence rate.
 
